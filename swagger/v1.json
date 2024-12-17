@@ -1,0 +1,1131 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Dhiren Swagger Demo",
+        "version": "1.0.0",
+        "description": "API"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:5000"
+        },
+        {
+            "url": "http://10.0.4.8:5000"
+        },
+        {
+            "url": "http://10.0.4.130:5000"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "paths": {
+        "/api/v1/auth/login": {
+            "post": {
+                "summary": "User Login",
+                "tags": [
+                    "Auth"
+                ],
+                "requestBody": {
+                    "description": "Login crendentials",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "User@datebookai.com"
+                                    },
+                                    "mobile_number": {
+                                        "type": "string",
+                                        "example": "9876543210"
+                                    },
+                                    "country_code": {
+                                        "type": "string",
+                                        "example": "+91"
+                                    },
+                                    "firebase_token": {
+                                        "type": "string",
+                                        "example": "abcd.....ac"
+                                    },
+                                    "device_type": {
+                                        "type": "string",
+                                        "example": "Android/iOS"
+                                    },
+                                    "device_os": {
+                                        "type": "string",
+                                        "example": "zxy..."
+                                    },
+                                    "device_name": {
+                                        "type": "string",
+                                        "example": "acd..."
+                                    },
+                                    "login_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "google",
+                                            "apple",
+                                            "instagram",
+                                            "facebook",
+                                            "tiktok",
+                                            "normal"
+                                        ],
+                                        "example": "facebook"
+                                    },
+                                    "device_id": {
+                                        "type": "string",
+                                        "example": "ABDSJBSAJB"
+                                    }
+                                },
+                                "required": [
+                                    "email",
+                                    "mobile_number"
+                                ]
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login successfully."
+                    },
+                    "400": {
+                        "description": "Email and mobile_number are invalid."
+                    },
+                    "404": {
+                        "description": "The user account is deactivated. Please contact support for further assistance."
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/add-bio": {
+            "post": {
+                "summary": "Add bio description.",
+                "tags": [
+                    "Auth"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "description": "Add bio description.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "description": {
+                                        "type": "string",
+                                        "example": "My profile is better than others."
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Bio added successfully."
+                    },
+                    "400": {
+                        "description": "Something went wrong."
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/add-hobbies": {
+            "post": {
+                "summary": "Add hobbies description.",
+                "tags": [
+                    "Auth"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "description": "Add hobbies description.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "hobbiesId": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "example": [
+                                            "673d82114774c9a3533b1ea3",
+                                            "673d82114774c9a3533b1ea4",
+                                            "673d82114774c9a3533b1ea5"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Bio added successfully."
+                    },
+                    "400": {
+                        "description": "Something went wrong."
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/logout": {
+            "delete": {
+                "summary": "User Logout",
+                "tags": [
+                    "Auth"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "description": "Logout user",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "device_id": {
+                                        "type": "string",
+                                        "example": "ABDSJBSAJB"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "example": "account"
+                                    }
+                                },
+                                "required": [
+                                    "type"
+                                ]
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Logout successfully."
+                    },
+                    "400": {
+                        "description": "type are invalid."
+                    },
+                    "404": {
+                        "description": "The user account is deactivated. Please contact support for further assistance."
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/contact-us": {
+            "post": {
+                "summary": "Contact request create",
+                "tags": [
+                    "Contact Us"
+                ],
+                "requestBody": {
+                    "description": "Contact request details",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "first_name": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "last_name": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "John@datebookai.com"
+                                    },
+                                    "mobile_number": {
+                                        "type": "string",
+                                        "example": "9876543210"
+                                    },
+                                    "country_code": {
+                                        "type": "string",
+                                        "example": "+91"
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "example": "Hello, I'm interested in your services."
+                                    }
+                                },
+                                "required": [
+                                    "first_name",
+                                    "last_name",
+                                    "email",
+                                    "mobile_number",
+                                    "message"
+                                ]
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Contact request details submitted"
+                    },
+                    "400": {
+                        "description": "Something went wrong."
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/update-profile": {
+            "put": {
+                "summary": "User profile update",
+                "tags": [
+                    "Auth"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "description": "User update the profile.",
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Harry potter"
+                                    },
+                                    "dob": {
+                                        "type": "string",
+                                        "example": "1999-01-01"
+                                    },
+                                    "gender": {
+                                        "type": "string",
+                                        "example": "6736df52aeee7c16e0018cfb"
+                                    },
+                                    "sexual_orientation": {
+                                        "type": "string",
+                                        "example": "6736df52aeee7c16e0018d05"
+                                    },
+                                    "education": {
+                                        "type": "string",
+                                        "example": "B.tech"
+                                    },
+                                    "show_me": {
+                                        "type": "string",
+                                        "example": "women"
+                                    },
+                                    "age_range": {
+                                        "type": "string",
+                                        "example": "10-100"
+                                    },
+                                    "beyond_age_range": {
+                                        "type": "string",
+                                        "example": "No"
+                                    },
+                                    "distance_range": {
+                                        "type": "string",
+                                        "example": "0-50"
+                                    },
+                                    "units": {
+                                        "type": "string",
+                                        "example": "km/miles"
+                                    },
+                                    "search_address": {
+                                        "type": "string",
+                                        "example": "Dubai"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "Dubai"
+                                    },
+                                    "state": {
+                                        "type": "string",
+                                        "example": "UAE"
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "example": "UAE"
+                                    },
+                                    "zipcode": {
+                                        "type": "string",
+                                        "example": "12345"
+                                    },
+                                    "lat": {
+                                        "type": "string",
+                                        "example": "25.2048"
+                                    },
+                                    "long": {
+                                        "type": "string",
+                                        "example": "55.2708"
+                                    },
+                                    "relationship_id": {
+                                        "type": "string",
+                                        "example": "6736df52aeee7c16e0018d2b"
+                                    },
+                                    "hobbies_id": {
+                                        "type": "string",
+                                        "example": "6736df52aeee7c16e0018d0f"
+                                    },
+                                    "bio_description": {
+                                        "type": "string",
+                                        "example": "Good"
+                                    },
+                                    "user_image": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "binary",
+                                            "description": "Multiple image files"
+                                        },
+                                        "description": "Array of image files",
+                                        "nullable": true
+                                    },
+                                    "user_video": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "binary",
+                                            "description": "Multiple video files"
+                                        },
+                                        "description": "Array of video files",
+                                        "nullable": true
+                                    },
+                                    "instagram_connected": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "instagram_token": {
+                                        "type": "string",
+                                        "example": "token..."
+                                    },
+                                    "facebook_connected": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "facebook_token": {
+                                        "type": "string",
+                                        "example": "token..."
+                                    },
+                                    "tiktok_connected": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "tiktok_token": {
+                                        "type": "string",
+                                        "example": "token..."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update profile successfully."
+                    },
+                    "404": {
+                        "description": "The user account is deactivated. Please contact support for further assistance."
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/home/home-user-list": {
+            "get": {
+                "summary": "Home user list",
+                "operationId": "Home user list",
+                "tags": [
+                    "home"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Home user list fetched."
+                    },
+                    "404": {
+                        "description": "Home user list does not have a value."
+                    },
+                    "500": {
+                        "description": "Please try again after sometime!"
+                    }
+                }
+            }
+        },
+        "/api/v1/step/get-step-list": {
+            "get": {
+                "summary": "Get step list",
+                "operationId": "Get step list",
+                "tags": [
+                    "step"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "Enum",
+                        "in": "query",
+                        "required": true,
+                        "description": "Enum value for step list type",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "I_AM_A",
+                                "SEXUAL_ORIENTATION",
+                                "RELATIONSHIP_GOALS",
+                                "HOBBIES_AND_INTERESTS",
+                                "BIO_SUGGEST_LIST"
+                            ],
+                            "example": "I_AM_A"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Step list fetched."
+                    },
+                    "404": {
+                        "description": "Step does not have a value."
+                    },
+                    "500": {
+                        "description": "Please try again after sometime!"
+                    }
+                }
+            }
+        },
+        "/api/v1/step/questions": {
+            "get": {
+                "summary": "Get questions list",
+                "operationId": "Get-questions-list",
+                "tags": [
+                    "step"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "Enum",
+                        "in": "query",
+                        "required": true,
+                        "description": "Enum value for step list type",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "HEIGHT",
+                                "BODY_TYPE",
+                                "HAIR_COLOR",
+                                "EYE_COLOR",
+                                "ZODIAC",
+                                "VACCINE",
+                                "SMOKING",
+                                "DRINKING",
+                                "DIETARY",
+                                "EXERCISE",
+                                "CUISINE",
+                                "MYSELF_KITCHEN",
+                                "MYSELF_DESCRIPTION",
+                                "QUALITY_PARTNER",
+                                "LOVE_LANGUAGE",
+                                "TOUCH_LINGER",
+                                "PETS",
+                                "RELIGION",
+                                "RELATIONSHIP_CONFLICTS",
+                                "LOVE_FIRST_SIGHT",
+                                "SUCCESS_RELATIONSHIP",
+                                "CONVERSATION",
+                                "STAND_UPON_CHILDREN",
+                                "BEST_CONTACT_ME",
+                                "TEXT_RESPOND",
+                                "FAVOURITE_MUSIC",
+                                "MOVIE_TV_SHOW",
+                                "ROMANCE_EXPRESS",
+                                "NIGHT_INVOLVES"
+                            ],
+                            "example": "HEIGHT"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Questions list fetched."
+                    },
+                    "404": {
+                        "description": "Questions do not have a value."
+                    },
+                    "500": {
+                        "description": "Please try again after some time!"
+                    }
+                }
+            }
+        },
+        "/api/v1/step/add-profile-questions": {
+            "post": {
+                "summary": "Add profile questions in list",
+                "operationId": "Add profile questions in list",
+                "tags": [
+                    "step"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "Enum",
+                        "in": "query",
+                        "required": true,
+                        "description": "Enum value for step list type",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "HOBBIES_AND_INTEREST",
+                                "BIO_SUGGEST_LIST",
+                                "EYE_COLOR",
+                                "DIETARY",
+                                "CUISINE",
+                                "MYSELF_KITCHEN",
+                                "MYSELF_DESCRIPTION",
+                                "QUALITY_PARTNER",
+                                "LOVE_LANGUAGE",
+                                "ROMANCE_EXPRESS",
+                                "NIGHT_INVOLVES",
+                                "TOUCH_LINGER",
+                                "PETS"
+                            ],
+                            "example": "HOBBIES_AND_INTEREST"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Add profile questions",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Reading"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Profile questions added successfully."
+                    },
+                    "400": {
+                        "description": "Profile questions do not have a value."
+                    },
+                    "500": {
+                        "description": "Please try again after some time!"
+                    }
+                }
+            }
+        },
+        "/api/v1/step/update-profile-questions": {
+            "put": {
+                "summary": "Update profile questions in list",
+                "operationId": "Update profile questions in list",
+                "tags": [
+                    "step"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "Enum",
+                        "in": "query",
+                        "required": true,
+                        "description": "Enum value for step list type",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "HEIGHT",
+                                "BODY_TYPE",
+                                "HAIR_COLOR",
+                                "EYE_COLOR",
+                                "ZODIAC",
+                                "VACCINE",
+                                "SMOKING",
+                                "DRINKING",
+                                "DIETARY",
+                                "EXERCISE",
+                                "CUISINE",
+                                "MYSELF_KITCHEN",
+                                "MYSELF_DESCRIPTION",
+                                "QUALITY_PARTNER",
+                                "LOVE_LANGUAGE",
+                                "TOUCH_LINGER",
+                                "PETS",
+                                "RELIGION",
+                                "RELATIONSHIP_CONFLICTS",
+                                "LOVE_FIRST_SIGHT",
+                                "SUCCESS_RELATIONSHIP",
+                                "CONVERSATION",
+                                "STAND_UPON_CHILDREN",
+                                "BEST_CONTACT_ME",
+                                "TEXT_RESPOND",
+                                "FAVOURITE_MUSIC",
+                                "MOVIE_TV_SHOW",
+                                "ROMANCE_EXPRESS",
+                                "NIGHT_INVOLVES",
+                                "HOBBIES_AND_INTEREST",
+                                "BIO_SUGGEST_LIST",
+                                "GENDER",
+                                "SEXUAL_ORIENTATION",
+                                "RELATIONSHIP"
+                            ],
+                            "example": "HOBBIES_AND_INTEREST"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Update profile questions",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "ids": {
+                                        "type": "array",
+                                        "example": ["673d82114774c9a3533b1ea3","673d82114774c9a3533b1ea4", "673d82114774c9a3533b1ea5"]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Profile questions updated successfully."
+                    },
+                    "400": {
+                        "description": "Profile questions do not have a value."
+                    },
+                    "500": {
+                        "description": "Please try again after some time!"
+                    }
+                }
+            }
+        },
+        "/api/v1/report/create-report": {
+            "post": {
+                "summary": "User Report",
+                "tags": [
+                    "Report"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "description": "report user",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "user_id": {
+                                        "type": "string",
+                                        "example": "6736df52aeee7c16e0018d09"
+                                    },
+                                    "reason": {
+                                        "type": "string",
+                                        "example": "This is scammer"
+                                    },
+                                    "report_type": {
+                                        "type": "string",
+                                        "example": "Other"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Report submitted successfully."
+                    },
+                    "404": {
+                        "description": "The user account is deactivated. Please contact support for further assistance."
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/contact/block": {
+            "post": {
+                "summary": "Block users",
+                "tags": [
+                    "contact"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userIdsToBlock": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "6736df52aeee7c16e0018cfb"
+                                        },
+                                        "description": "Array of user IDs to block"
+                                    },
+                                    "reason": {
+                                        "type": "string",
+                                        "example": "Violation of terms",
+                                        "description": "Reason for blocking"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Users blocked successfully"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Some users not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/v1/contact/unblock": {
+            "post": {
+                "summary": "Unblock users",
+                "tags": [
+                    "contact"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userIdsToUnblock": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "6736df52aeee7c16e0018cfb"
+                                        },
+                                        "description": "Array of user IDs to unblock"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Users unblocked successfully"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/v1/contact/add-contact": {
+            "post": {
+                "summary": "Add a new contact",
+                "tags": [
+                    "contactUser"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "john.doe@example.com"
+                                    },
+                                    "mobile_number": {
+                                        "type": "string",
+                                        "example": "1234567890"
+                                    },
+                                    "country_code": {
+                                        "type": "string",
+                                        "example": "+1"
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "example": "Looking forward to connecting!"
+                                    },
+                                    "user_id": {
+                                        "type": "string",
+                                        "example": "6736df52aeee7c16e0018cfb"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Contact added successfully"
+                    },
+                    "404": {
+                        "description": "Duplicate contact found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/v1/contact/contact-list": {
+            "get": {
+                "summary": "Fetch the contact list",
+                "tags": [
+                    "contact"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        },
+                        "description": "Page number for pagination"
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        },
+                        "description": "Number of contacts per page"
+                    },
+                    {
+                        "in": "query",
+                        "name": "sortBy",
+                        "schema": {
+                            "type": "string",
+                            "default": "created_at"
+                        },
+                        "description": "Field to sort by"
+                    },
+                    {
+                        "in": "query",
+                        "name": "sortOrder",
+                        "schema": {
+                            "type": "string",
+                            "default": "desc"
+                        },
+                        "description": "Sorting order (asc/desc)"
+                    },
+                    {
+                        "in": "query",
+                        "name": "is_block",
+                        "schema": {
+                            "type": "string",
+                            "example": "NO"
+                        },
+                        "description": "Filter by block status"
+                    },
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "schema": {
+                            "type": "string",
+                            "example": "John"
+                        },
+                        "description": "Filter by name"
+                    },
+                    {
+                        "in": "query",
+                        "name": "email",
+                        "schema": {
+                            "type": "string",
+                            "example": "john.doe@example.com"
+                        },
+                        "description": "Filter by email"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Contacts fetched successfully"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/delete-account": {
+            "delete": {
+                "summary": "Delete account",
+                "operationId": "Delete account",
+                "tags": [
+                    "Auth"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Account deleted successfully."
+                    },
+                    "404": {
+                        "description": "User not found."
+                    },
+                    "500": {
+                        "description": "Please try again after sometime!"
+                    }
+                }
+            }
+        },
+        "/api/v1/rate/create": {
+            "post": {
+                "summary": "Create Rate/Review",
+                "tags": [
+                    "rate"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "rate": {
+                                        "type": "string",
+                                        "example": "5",
+                                        "description": "Rating value (e.g., 1-5)"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Excellent service",
+                                        "description": "Additional details about the rating"
+                                    },
+                                    "user_id": {
+                                        "type": "string",
+                                        "example": "64af9c93e1e2b6a4d3a6e61f",
+                                        "description": "The user ID who provided the rating"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Rate Added successfully"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,2728 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Dhiren Swagger Demo API",
+    "version": "1.0.0",
+    "description": "API Documentation"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000"
+    },
+    {
+      "url": "http://10.0.4.8:5000"
+    },
+    {
+        "url": "http://10.0.4.130:5000"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "paths": {
+    "/api/admin/auth/login": {
+      "post": {
+        "summary": "Admin Login",
+        "tags": ["Auth"],
+        "requestBody": {
+          "description": "Email and password crendentials",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "admin@datebookai.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "Admin@123"
+                  }
+                },
+                "required": ["email", "password"]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Login successfully."
+          },
+          "400": {
+            "description": "Email and password are invalid."
+          },
+          "404": {
+            "description": "The user account is deactivated. Please contact support for further assistance."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/auth/forgot-password": {
+      "post": {
+        "summary": "Admin forgot password",
+        "tags": ["Auth"],
+        "requestBody": {
+          "description": "This will send password reset link to provided email",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "admin@datebookai.com"
+                  }
+                },
+                "required": ["email"]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Password reset link sent to your email account."
+          },
+          "400": {
+            "description": "Email does not exist."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/auth/link-expired": {
+      "post": {
+        "summary": "Checking Link Sent through email",
+        "tags": ["Auth"],
+        "requestBody": {
+          "description": "This will check if link is expired or not for reset password",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MmRjZGI1ZjYyYjJhYmE4ODE3OTVhZSIsImVtYWlsIjoiYWRtaW5AZGF0ZWJvb2thaS5jb20iLCJpYXQiOjE3MzEwNjQ1OTMsImV4cCI6MTczMTE1MDk5M30.HyrdWE8mkDyjKEfbb6Ka97bHroslDmEjavLxcu1ArqQ"
+                  }
+                },
+                "required": ["token"]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Link is valid please reset your password."
+          },
+          "400": {
+            "description": "Link Expired."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/auth/reset-password": {
+      "post": {
+        "summary": "Password change",
+        "tags": ["Auth"],
+        "requestBody": {
+          "description": "Change Password",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "672dcdb5f62b2aba881795ae"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "Admin@123"
+                  }
+                },
+                "required": ["id", "password"]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Password changed successfully."
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/module": {
+      "post": {
+        "summary": "Create Module",
+        "tags": ["Master Module"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "For creating new master module",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Role"
+                  },
+                  "order": {
+                    "type": "integer",
+                    "example": 1
+                  }
+                },
+                "required": ["name", "order"]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Module Created Successfully."
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "summary": "get List of modules",
+        "tags": ["Master Module"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Modules get successfully."
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/role": {
+      "post": {
+        "summary": "Add role.",
+        "tags": ["Role"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Add role.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "User Manager"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "This role is for managing users"
+                  },
+                  "status": {
+                    "type": "string",
+                    "example": "active"
+                  },
+                  "permission": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "module": {
+                          "type": "string",
+                          "example": "Users"
+                        },
+                        "view": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "add": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "edit": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "delete": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "export": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Role created Successfully."
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get roles.",
+        "tags": ["Role"],
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "description": "Search role entries by name.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "description": "Filter roles by status",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "Page number for pagination",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Number of roles to fetch per page",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "required": false,
+            "description": "Field to sort roles by. Default is 'created_at'.",
+            "schema": {
+              "type": "string",
+              "default": "created_at"
+            }
+          },
+          {
+            "name": "sort_direction",
+            "in": "query",
+            "required": false,
+            "description": "Direction to sort roles. Use 1 for ascending and -1 for descending. Default is -1.",
+            "schema": {
+              "type": "integer",
+              "enum": [1, -1],
+              "default": -1
+            }
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Role fetched successfully."
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please enter token."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/api/admin/role/{id}": {
+      "put": {
+        "summary": "Update role.",
+        "tags": ["Role"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "id of role.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Update Role.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "User Manager"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Role for user management"
+                  },
+                  "status": {
+                    "type": "string",
+                    "example": "active"
+                  },
+                  "permission": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "module": {
+                          "type": "string",
+                          "example": "Users"
+                        },
+                        "view": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "add": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "edit": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "delete": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "export": {
+                          "type": "boolean",
+                          "example": false
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Role updated Successfully."
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete role.",
+        "tags": ["Role"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "id of role.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Role deleted Successfully."
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "summary": "get one role.",
+        "tags": ["Role"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "id of role.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Role fetched Successfully."
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/role/list": {
+      "get": {
+        "summary": "get role List.",
+        "tags": ["Role"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Role fetched Successfully."
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/profile": {
+      "get": {
+        "summary": "View profile.",
+        "tags": ["Profile"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Profile get successfully."
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/permission": {
+      "get": {
+        "summary": "get permission of login user.",
+        "tags": ["Profile"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Permission fetched successfully."
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/profile/update": {
+      "post": {
+        "summary": "Update profile.",
+        "tags": ["Profile"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Update profile.",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Admin - DateBook AI"
+                  },
+                  "admin_image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": []
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Profile updated successfully."
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/change-password": {
+      "post": {
+        "summary": "Password change",
+        "tags": ["Profile"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Change Password",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "current_password": {
+                    "type": "string",
+                    "example": "Admin@123"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "Yash@123"
+                  }
+                },
+                "required": ["current_password", "password"]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Password changed successfully."
+          },
+          "400": {
+            "description": "Current Password is wrong. || The new password is the same as the Current password."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/staff": {
+      "post": {
+        "summary": "Add staff.",
+        "tags": ["Staff"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Add staff.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "test"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "test.cmarix@yopmail.com"
+                  },
+                  "country_code": {
+                    "type": "string",
+                    "example": "+91"
+                  },
+                  "mobile_number": {
+                    "type": "string",
+                    "example": "1234567890"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "Test@123"
+                  },
+                  "role_id": {
+                    "type": "string",
+                    "example": "6690fadb0015c3b284c86b34"
+                  },
+                  "status": {
+                    "type": "string",
+                    "example": "active"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "staff created Successfully."
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "summary": "Fetch a list of staff with optional filters, sorting, and pagination.",
+        "tags": ["Staff"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "description": "Search staff by name or email.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "role_id",
+            "in": "query",
+            "required": false,
+            "description": "Filter staff by role ID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "required": false,
+            "description": "Field to sort the results by. Default is 'created_at'.",
+            "schema": {
+              "type": "string",
+              "example": "name"
+            }
+          },
+          {
+            "name": "sort_direction",
+            "in": "query",
+            "required": false,
+            "description": "Sorting direction: 1 for ascending, -1 for descending. Default is -1.",
+            "schema": {
+              "type": "integer",
+              "enum": [1, -1],
+              "example": -1
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "Page number for pagination. Default is 1.",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Number of items per page. Default is 10.",
+            "schema": {
+              "type": "integer",
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "staff fetched Successfully."
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/staff/{id}": {
+      "put": {
+        "summary": "Update staff.",
+        "tags": ["Staff"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "id of staff.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Update staff.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "test user"
+                  },
+                  "country_code": {
+                    "type": "string",
+                    "example": "+91"
+                  },
+                  "mobile_number": {
+                    "type": "string",
+                    "example": "1234567890"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "Test@123"
+                  },
+                  "role_id": {
+                    "type": "string",
+                    "example": "6731a36e17bd1ebf00b671ce"
+                  },
+                  "status": {
+                    "type": "string",
+                    "example": "inactive"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "staff updated Successfully."
+          },
+          "400": {
+            "description": "Email already exists | Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete staff.",
+        "tags": ["Staff"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "id of staff.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "staff deleted Successfully."
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "summary": "get one staff.",
+        "tags": ["Staff"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "id of staff.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "staff fetched Successfully."
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/cms": {
+      "get": {
+        "summary": "Fetch CMS entries with optional filters, sorting, and pagination.",
+        "tags": ["CMS"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "description": "Search CMS entries by title.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "required": false,
+            "description": "Field to sort the results by. Default is 'created_at'.",
+            "schema": {
+              "type": "string",
+              "example": "title"
+            }
+          },
+          {
+            "name": "sort_direction",
+            "in": "query",
+            "required": false,
+            "description": "Sorting direction: 1 for ascending, -1 for descending. Default is -1.",
+            "schema": {
+              "type": "integer",
+              "enum": [1, -1],
+              "example": -1
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "Page number for pagination. Default is 1.",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Number of items per page. Default is 10.",
+            "schema": {
+              "type": "integer",
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CMS Data fetched Successfully"
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "summary": "create cms",
+        "operationId": "create-cms",
+        "tags": ["CMS"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Content Management",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "privacy-policy"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "<h1>CMS content</h1>"
+                  },
+                  "status": {
+                    "type": "string",
+                    "example": "active"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "CMS created Successfully."
+          },
+          "400": {
+            "description": "Please try again after sometime!"
+          }
+        }
+      }
+    },
+    "/api/admin/cms/{id}": {
+      "put": {
+        "summary": "Update cms",
+        "operationId": "Update-cms",
+        "tags": ["CMS"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "id of CMS.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Update content of CMS.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "privacy-policy"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "<h2>CMS content</h2>"
+                  },
+                  "status": {
+                    "type": "integer",
+                    "example": "inactive"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "CMS updated Successfully"
+          },
+          "400": {
+            "description": "Please try again after sometime!"
+          }
+        }
+      },
+      "get": {
+        "summary": "get one-cms",
+        "tags": ["CMS"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "id of Cms.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CMS Data fetched Successfully"
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete cms",
+        "tags": ["CMS"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "id of CMS.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CMS deleted Successfully"
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/master/gender": {
+      "get": {
+        "summary": "Get Gender",
+        "tags": ["Master"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Gender retrived successfully."
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/master/hobbies": {
+      "get": {
+        "summary": "Get Hobbies",
+        "tags": ["Master"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Hobbies retrived successfully."
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/master/relationship": {
+      "get": {
+        "summary": "Get Relationship",
+        "tags": ["Master"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Relationship retrived successfully."
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/master/sexual-orientation": {
+      "get": {
+        "summary": "Get Sexual Orientation",
+        "tags": ["Master"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sexual Orientation retrived successfully."
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/user": {
+      "get": {
+        "summary": "Fetch Users entries with optional filters, sorting, and pagination.",
+        "tags": ["User"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "description": "Search User entries by name.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "required": false,
+            "description": "Field to sort the results by. Default is 'created_at'.",
+            "schema": {
+              "type": "string",
+              "example": "name"
+            }
+          },
+          {
+            "name": "sort_direction",
+            "in": "query",
+            "required": false,
+            "description": "Sorting direction: 1 for ascending, -1 for descending. Default is -1.",
+            "schema": {
+              "type": "integer",
+              "enum": [1, -1],
+              "example": -1
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "Page number for pagination. Default is 1.",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Number of items per page. Default is 10.",
+            "schema": {
+              "type": "integer",
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Users fetched Successfully"
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create user",
+        "operationId": "create-user",
+        "tags": ["User"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "User creation details",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "johndoe@example.com"
+                  },
+                  "mobile_number": {
+                    "type": "string",
+                    "example": "1234567890"
+                  },
+                  "country_code": {
+                    "type": "string",
+                    "example": "+1"
+                  },
+                  "DOB": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Use yyyy-mm-dd format",
+                    "example": "1990-01-01"
+                  },
+                  "gender": {
+                    "type": "string",
+                    "example": "6734a8d00c40cb62a608cd12"
+                  },
+                  "sexual_orientation": {
+                    "type": "string",
+                    "example": "6734a8d00c40cb62a608cd1c"
+                  },
+                  "gender_show": {
+                    "type": "string",
+                    "enum": ["yes", "no"],
+                    "example": "yes"
+                  },
+                  "education": {
+                    "type": "string",
+                    "example": "Bachelor's in Computer Science"
+                  },
+                  "show_me": {
+                    "type": "string",
+                    "enum": ["men", "women", "everyone"],
+                    "example": "everyone"
+                  },
+                  "age_range": {
+                    "type": "object",
+                    "properties": {
+                      "min": {
+                        "type": "integer",
+                        "example": 18
+                      },
+                      "max": {
+                        "type": "integer",
+                        "example": 35
+                      },
+                      "beyond_preferred_range": {
+                        "type": "string",
+                        "enum": ["yes", "no"],
+                        "example": "no"
+                      }
+                    }
+                  },
+                  "distance_range": {
+                    "type": "object",
+                    "properties": {
+                      "min": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "max": {
+                        "type": "integer",
+                        "example": 10
+                      },
+                      "units": {
+                        "type": "string",
+                        "enum": ["km", "miles"],
+                        "example": "km"
+                      },
+                      "beyond_range": {
+                        "type": "string",
+                        "enum": ["yes", "no"],
+                        "example": "no"
+                      }
+                    }
+                  },
+                  "search_address": {
+                    "type": "object",
+                    "properties": {
+                      "address1": {
+                        "type": "string",
+                        "example": "123 Main St"
+                      },
+                      "address2": {
+                        "type": "string",
+                        "example": "Apt 4B"
+                      },
+                      "city": {
+                        "type": "string",
+                        "example": "New York"
+                      },
+                      "state": {
+                        "type": "string",
+                        "example": "NY"
+                      },
+                      "country": {
+                        "type": "string",
+                        "example": "USA"
+                      },
+                      "latitude": {
+                        "type": "string",
+                        "example": "40.7128"
+                      },
+                      "longitude": {
+                        "type": "string",
+                        "example": "-74.0060"
+                      },
+                      "zip_code": {
+                        "type": "string",
+                        "example": "10001"
+                      }
+                    }
+                  },
+                  "relationship_goal": {
+                    "type": "string",
+                    "example": "6734a8d00c40cb62a608cd41"
+                  },
+                  "hobbies": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "example": "6734a8d00c40cb62a608cd29"
+                    }
+                  },
+                  "bio_description": {
+                    "type": "string",
+                    "example": "Love hiking and outdoor adventures."
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": ["active", "deactive", "pending"],
+                    "example": "active"
+                  }
+                },
+                "required": [
+                  "name",
+                  "email",
+                  "mobile_number",
+                  "country_code",
+                  "DOB",
+                  "gender",
+                  "sexual_orientation",
+                  "gender_show",
+                  "education",
+                  "show_me",
+                  "age_range",
+                  "distance_range",
+                  "search_address",
+                  "relationship_goal",
+                  "hobbies",
+                  "bio_description",
+                  "status"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully."
+          },
+          "400": {
+            "description": "Invalid input data."
+          }
+        }
+      }
+    },
+    "/api/admin/user/list": {
+      "get": {
+        "summary": "get users list",
+        "tags": ["User"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Users fetched Successfully"
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/user/{id}": {
+      "get": {
+        "summary": "get one-user",
+        "tags": ["User"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "id of user.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User fetched Successfully"
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update user",
+        "operationId": "update-user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "id of user.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": ["User"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "User updation details",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "johndoe@example.com"
+                  },
+                  "mobile_number": {
+                    "type": "string",
+                    "example": "1234567890"
+                  },
+                  "country_code": {
+                    "type": "string",
+                    "example": "+1"
+                  },
+                  "DOB": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Use yyyy-mm-dd format",
+                    "example": "1990-01-01"
+                  },
+                  "gender": {
+                    "type": "string",
+                    "example": "6734a8d00c40cb62a608cd12"
+                  },
+                  "sexual_orientation": {
+                    "type": "string",
+                    "example": "6734a8d00c40cb62a608cd1c"
+                  },
+                  "gender_show": {
+                    "type": "string",
+                    "enum": ["yes", "no"],
+                    "example": "yes"
+                  },
+                  "education": {
+                    "type": "string",
+                    "example": "Bachelor's in Computer Science"
+                  },
+                  "show_me": {
+                    "type": "string",
+                    "enum": ["men", "women", "everyone"],
+                    "example": "everyone"
+                  },
+                  "age_range": {
+                    "type": "object",
+                    "properties": {
+                      "min": {
+                        "type": "integer",
+                        "example": 18
+                      },
+                      "max": {
+                        "type": "integer",
+                        "example": 35
+                      },
+                      "beyond_preferred_range": {
+                        "type": "string",
+                        "enum": ["yes", "no"],
+                        "example": "no"
+                      }
+                    }
+                  },
+                  "distance_range": {
+                    "type": "object",
+                    "properties": {
+                      "min": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "max": {
+                        "type": "integer",
+                        "example": 10
+                      },
+                      "units": {
+                        "type": "string",
+                        "enum": ["km", "miles"],
+                        "example": "km"
+                      },
+                      "beyond_range": {
+                        "type": "string",
+                        "enum": ["yes", "no"],
+                        "example": "no"
+                      }
+                    }
+                  },
+                  "search_address": {
+                    "type": "object",
+                    "properties": {
+                      "address1": {
+                        "type": "string",
+                        "example": "123 Main St"
+                      },
+                      "address2": {
+                        "type": "string",
+                        "example": "Apt 4B"
+                      },
+                      "city": {
+                        "type": "string",
+                        "example": "New York"
+                      },
+                      "state": {
+                        "type": "string",
+                        "example": "NY"
+                      },
+                      "country": {
+                        "type": "string",
+                        "example": "USA"
+                      },
+                      "latitude": {
+                        "type": "string",
+                        "example": "40.7128"
+                      },
+                      "longitude": {
+                        "type": "string",
+                        "example": "-74.0060"
+                      },
+                      "zip_code": {
+                        "type": "string",
+                        "example": "10001"
+                      }
+                    }
+                  },
+                  "relationship_goal": {
+                    "type": "string",
+                    "example": "6734a8d00c40cb62a608cd41"
+                  },
+                  "hobbies": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "example": "6734a8d00c40cb62a608cd29"
+                    }
+                  },
+                  "bio_description": {
+                    "type": "string",
+                    "example": "Love hiking and outdoor adventures."
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": ["active", "deactive", "pending"],
+                    "example": "active"
+                  }
+                },
+                "required": [
+                  "name",
+                  "email",
+                  "mobile_number",
+                  "country_code",
+                  "DOB",
+                  "gender",
+                  "sexual_orientation",
+                  "gender_show",
+                  "education",
+                  "show_me",
+                  "age_range",
+                  "distance_range",
+                  "search_address",
+                  "relationship_goal",
+                  "hobbies",
+                  "bio_description",
+                  "status"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "User updated successfully."
+          },
+          "400": {
+            "description": "Invalid input data."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete user",
+        "tags": ["User"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "id of User.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted Successfully"
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/user/block/{userId}": {
+      "get": {
+        "summary": " get Block users",
+        "operationId": "block-user-get",
+        "tags": ["Block User"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "userId.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Blocked users fetched successfully"
+          },
+          "400": {
+            "description": "Invalid input data."
+          }
+        }
+      },
+      "post": {
+        "summary": "Block user",
+        "operationId": "block-user-add",
+        "tags": ["Block User"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "userId.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "User Blocking",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "6736d1e158c3fb8a23c0fb98"
+                  },
+                  "reason": {
+                    "type": "string",
+                    "example": "Not Interested"
+                  }
+                },
+                "required": [
+                  "id",
+                  "reason"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "User blocked successfully"
+          },
+          "400": {
+            "description": "Invalid input data."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Block user reason",
+        "operationId": "block-user-update-reason",
+        "tags": ["Block User"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "userId.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "update User Blocking reason",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "6736d1e158c3fb8a23c0fb98"
+                  },
+                  "reason": {
+                    "type": "string",
+                    "example": "Not Interested"
+                  }
+                },
+                "required": [
+                  "id",
+                  "reason"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Reason updated successfully"
+          },
+          "400": {
+            "description": "Invalid input data."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove Blocked user",
+        "operationId": "block-user-remove",
+        "tags": ["Block User"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "userId.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "delete blocked user",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "6736d1e158c3fb8a23c0fb98"
+                  }
+                },
+                "required": [
+                  "id"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Block User removed successfully"
+          },
+          "400": {
+            "description": "Invalid input data."
+          }
+        }
+      }
+    },
+    "/api/admin/contact-request": {
+      "get": {
+        "summary": "Fetch Contact requests entries with optional filters, sorting, and pagination.",
+        "tags": ["ContactRequest"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "description": "Search entries by first_name and email.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "required": false,
+            "description": "Field to sort the results by. Default is 'created_at'.",
+            "schema": {
+              "type": "string",
+              "example": "first_name"
+            }
+          },
+          {
+            "name": "sort_direction",
+            "in": "query",
+            "required": false,
+            "description": "Sorting direction: 1 for ascending, -1 for descending. Default is -1.",
+            "schema": {
+              "type": "integer",
+              "enum": [1, -1],
+              "example": -1
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "Page number for pagination. Default is 1.",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Number of items per page. Default is 10.",
+            "schema": {
+              "type": "integer",
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contact requests fetched Successfully"
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/contact-request/{id}": {
+      "get": {
+        "summary": "get one contact request",
+        "tags": ["ContactRequest"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "id of contact request.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contact request fetched Successfully"
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete contact request",
+        "tags": ["ContactRequest"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "id of contact request.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contact request deleted Successfully"
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/question": {
+      "get": {
+        "summary": "Fetch Questions entries with optional filters, sorting, and pagination.",
+        "tags": ["Question"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "description": "Search Question entries by name and type.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "required": false,
+            "description": "Field to sort the results by. Default is 'created_at'.",
+            "schema": {
+              "type": "string",
+              "example": "name"
+            }
+          },
+          {
+            "name": "sort_direction",
+            "in": "query",
+            "required": false,
+            "description": "Sorting direction: 1 for ascending, -1 for descending. Default is -1.",
+            "schema": {
+              "type": "integer",
+              "enum": [1, -1],
+              "example": -1
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "Page number for pagination. Default is 1.",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Number of items per page. Default is 10.",
+            "schema": {
+              "type": "integer",
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Question Data fetched Successfully"
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "summary": "create question",
+        "operationId": "create-question",
+        "tags": ["Question"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Question",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "How you like the friends ?"
+                  },
+                  "question_type": {
+                    "type": "string",
+                    "enum": ["tea","coffee"],
+                    "example": "tea"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Question created Successfully."
+          },
+          "400": {
+            "description": "Please try again after sometime!"
+          }
+        }
+      }
+    },
+    "/api/admin/question/{id}": {
+      "put": {
+        "summary": "Update question",
+        "operationId": "Update-question",
+        "tags": ["Question"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "id of Question.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Update content of Question.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "How you like the friends ?"
+                  },
+                  "question_type": {
+                    "type": "string",
+                    "enum": ["tea","coffee"],
+                    "example": "tea"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Question updated Successfully"
+          },
+          "400": {
+            "description": "Please try again after sometime!"
+          }
+        }
+      },
+      "get": {
+        "summary": "get one-question",
+        "tags": ["Question"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "id of Question.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Question Data fetched Successfully"
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete question",
+        "tags": ["Question"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "id of Question.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Question deleted Successfully"
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/notification": {
+      "get": {
+        "summary": "Fetch Notifications entries with optional filters, sorting, and pagination.",
+        "tags": ["Notification"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "description": "Search Notifications entries by description.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "required": false,
+            "description": "Field to sort the results by. Default is 'created_at'.",
+            "schema": {
+              "type": "string",
+              "example": "created_at"
+            }
+          },
+          {
+            "name": "sort_direction",
+            "in": "query",
+            "required": false,
+            "description": "Sorting direction: 1 for ascending, -1 for descending. Default is -1.",
+            "schema": {
+              "type": "integer",
+              "enum": [1, -1],
+              "example": -1
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "Page number for pagination. Default is 1.",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Number of items per page. Default is 10.",
+            "schema": {
+              "type": "integer",
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notification Data fetched Successfully"
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "summary": "create notifications",
+        "operationId": "create-notifications",
+        "tags": ["Notification"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Create notification for users",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "description": {
+                    "type": "string",
+                    "example": "Please Attention! This is test notification from admin."
+                  },
+                  "user_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "example": "673aeb1f6085aff5c1e6f01b"
+                    }
+                  },
+                  "send_to": {
+                    "type": "string",
+                    "enum": ["all","user"],
+                    "example": "user"
+                  }
+                },
+                "required": [
+                  "description",
+                  "send_to"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Notification created Successfully."
+          },
+          "400": {
+            "description": "Please try again after sometime!"
+          }
+        }
+      }
+    },
+    "/api/admin/notification/{id}": {
+      "get": {
+        "summary": "Fetch Notification details entries with optional filters, sorting, and pagination.",
+        "tags": ["Notification"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "id of Notification.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "description": "Search Notifications entries by description.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "required": false,
+            "description": "Field to sort the results by. Default is 'created_at'.",
+            "schema": {
+              "type": "string",
+              "example": "created_at"
+            }
+          },
+          {
+            "name": "sort_direction",
+            "in": "query",
+            "required": false,
+            "description": "Sorting direction: 1 for ascending, -1 for descending. Default is -1.",
+            "schema": {
+              "type": "integer",
+              "enum": [1, -1],
+              "example": -1
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "Page number for pagination. Default is 1.",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Number of items per page. Default is 10.",
+            "schema": {
+              "type": "integer",
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notification Data fetched Successfully"
+          },
+          "400": {
+            "description": "Something went wrong."
+          },
+          "404": {
+            "description": "Please Enter Token."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  }
+}
